@@ -3,13 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Game extends React.Component {
-    render() {                              // Render html code in js file (BAD PRACTICE).//
+    render() {
         return (
-        <div className="game">              {/* React comment example */}
-            <div className="game-board">    {/* Space destined to host an specific component */}
-                <Board />                   {/* (3rd step) Link Board component with Game component */}
+        <div className="game">
+            <div className="game-board">
+                <Board />
             </div>
-            <div className="game-info">     {/* Space destined to log Game actions */}
+            <div className="game-info">
             </div>
         </div>
         );
@@ -18,19 +18,18 @@ class Game extends React.Component {
 
 
 class Board extends React.Component {
-
-    renderSquare(i) {                       // (4th step) New function to make easier the Square Component insertion.
+    renderSquare(i) {
         return <Square value={i} />;
     }
 
     render() {
-        const status = 'Next Player X';     // Board need to know who is playing, set initial Board state to player 'X' or 'O'.
+        const status = 'Next Player X';
 
-        return (                            // We want a [3row x 3col] tic-tac-toe
+        return (
             <div>
                 <div className="status">{status}</div>
                 <div className="board-row">
-                    {this.renderSquare(0)}  {/* Insert Square Component */}
+                    {this.renderSquare(0)}
                     {this.renderSquare(1)}
                     {this.renderSquare(2)}
                 </div>
@@ -50,14 +49,20 @@ class Board extends React.Component {
 }
 
 class Square extends React.Component {
+    constructor(props) {    // We will use component state to store the current value of the Square
+        super(props);       // You ALWAYS need to call 'super()' when defining the constructor of a subclass
+        this.state = {
+            value: null,
+        };
+    }
+
     render() {
         return (
-            <button className="square">
-                {this.props.value}          {/* 'this.props.value' let us acccess to value propertie of Square tag 
-                                              * 
-                                              * Example:
-                                              *     <Square value={'THIS_PROPS_VALUE'} />
-                                              * */}
+            <button
+                className="square" 
+                onClick={() => this.setState({value: 'X'})}
+            >                       {/* One click, update Square state */}
+                {this.state.value}  {/* Now we use state to know Square behaviour */}
             </button>
         );
     }
