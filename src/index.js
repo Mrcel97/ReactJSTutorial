@@ -49,8 +49,8 @@ class Board extends React.Component {
 }
 
 class Square extends React.Component {
-    constructor(props) {    // We will use component state to store the current value of the Square
-        super(props);       // You ALWAYS need to call 'super()' when defining the constructor of a subclass
+    constructor(props) {
+        super(props);
         this.state = {
             value: null,
         };
@@ -61,8 +61,8 @@ class Square extends React.Component {
             <button
                 className="square" 
                 onClick={() => this.setState({value: 'X'})}
-            >                       {/* One click, update Square state */}
-                {this.state.value}  {/* Now we use state to know Square behaviour */}
+            >
+                {this.state.value}
             </button>
         );
     }
@@ -72,6 +72,6 @@ class Square extends React.Component {
 // ==================================
 
 ReactDOM.render(
-    <Game />,                                // Load Game component into DOM
+    <Game />,
     document.getElementById('root')
 )
