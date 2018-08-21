@@ -52,7 +52,10 @@ class Board extends React.Component {
 class Square extends React.Component {
     render() {
         return (
-            <button className="square">
+            <button className="square" onClick={() => alert('click')}>      {/* Same as: onClick={function() { alert('click'); }}
+                                                                              *     + Avoid confusing behavior
+                                                                              *     + Save typing
+                                                                              * */}
                 {this.props.value}
             </button>
         );
