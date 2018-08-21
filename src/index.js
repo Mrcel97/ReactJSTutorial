@@ -15,3 +15,10 @@ class Game extends React.Component {
         );
     }
 }
+
+// ==================================
+
+ReactDOM.render(
+    <Game />,                                // Load Game component into DOM
+    document.getElementById('root')
+)
