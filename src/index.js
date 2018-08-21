@@ -18,8 +18,15 @@ class Game extends React.Component {
 
 
 class Board extends React.Component {
+    constructor(props) {                                    // Add Square Components (children) behaviour to Board Component (parent)
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),                   // 3x3 Array of no-state cells.
+        };
+    }
+
     renderSquare(i) {
-        return <Square value={i} />;
+        return <Square value={this.state.squares[i]} />;    // Board know Squares initial state so we can define it. 
     }
 
     render() {
