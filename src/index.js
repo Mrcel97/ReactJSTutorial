@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Game extends React.Component {
-    // Global variables due to avoid to declare in every function.
     winner;
     history;
     current;
@@ -12,15 +11,14 @@ class Game extends React.Component {
         super(props);
         this.state = {
             history: [{
-                squares: Array(9).fill(null), // Now Board Component will not store the state of the game any more.
+                squares: Array(9).fill(null),
             }],
             stepNumber: 0,
             xIsNext: true,
         }
     }
 
-    handleClick(i) { /* Due Game Component now have the squares state and Board Component only uses their props this Coponent will 
-                      * handleClicks.*/
+    handleClick(i) {
         this.history = this.state.history.slice(0, this.state.stepNumber + 1);
         this.current = this.history[this.history.length - 1];
         const squares = this.current.squares.slice();
@@ -48,14 +46,12 @@ class Game extends React.Component {
         const MAX_LEN = 9;
         this.history = this.state.history;
         this.current = this.history[this.state.stepNumber];
-        this.winner = calculateWinner(this.current.squares); /* Due Game Component now have the squares state this Component will
-                                                              * calculateWinner.*/
+        this.winner = calculateWinner(this.current.squares);
 
         const moves = this.history.map((step, move) => {
             const desc = move ? 'Go to move #' + move : 'Go to game start';
             return (
-                <li key={move}> {/* React dinamic lists need to have a key to diferenciate each other. If no key is provided this will
-                                  * generate a warning message. */}
+                <li key={move}>
                     <button onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
