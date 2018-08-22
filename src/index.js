@@ -18,30 +18,45 @@ class Game extends React.Component {
 
 
 class Board extends React.Component {
-    constructor(props) {                                    // Add Square Components (children) behaviour to Board Component (parent)
+    winner;
+
+    constructor(props) {
         super(props);
         this.state = {
-            squares: Array(9).fill(null),                   // 3x3 Array of no-state cells.
+            squares: Array(9).fill(null),
+            xIsNext: true,
         };
     }
 
     handleClick(i) {
-        const squares = this.state.squares.slice();         // Shallow copy
-        squares[i] = 'X';                                   // (*)... Then this number will be used to update only the specific Square.
-        this.setState({squares: squares});
+        const squares = this.state.squares.slice();
+        if (this.winner || squares[i]) { // If game has ended or square[i] has been already filled, return.
+            return;
+        }
+        squares[i] = this.state.xIsNext ? 'X' : 'O';
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext,
+        });
     }
 
-    renderSquare(i) {                                       // When we create a Square we assign a numer to it ...(*)
+    renderSquare(i) {
         return (
             <Square 
-                value={this.state.squares[i]}               // Set the 'this.props.value' of the Square Component to 'X', 'O' or Null.
-                onClick={() => this.handleClick(i)}         // Function defined by Board Component to help us to update Board state without privacity problems.
+                value={this.state.squares[i]}
+                onClick={() => this.handleClick(i)}
             />
         );
     }
 
     render() {
-        const status = 'Next Player X';
+        this.winner  = calculateWinner(this.state.squares);
+        let status;
+        if (this.winner) {
+            status = 'Winner: ' + this.winner;
+        } else {
+            status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
 
         return (
             <div>
@@ -66,40 +81,35 @@ class Board extends React.Component {
     }
 }
 
-class Square extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        };
-    }
-
-    render() {
-        return (
-            <button
-                className="square" 
-                onClick={() => this.props.onClick()}        // onClick() will generate a 'click event' handled by handleClick() function in Board Component.
-            >
-                {this.props.value}                          {/* Now we are interessed in work with 'this.props.value' due to be updated by the BoardComponent 
-                                                              * 
-                                                              * Explication:
-                                                              *     · State:
-                                                              *         - Individual local states.
-                                                              *         - Often become the props of the Child Components.
-                                                              *         - Inmutable (by any other Component)
-                                                              *         - Mutable (by the same Component)
-                                                              *     
-                                                              *     · Props:
-                                                              *         - External given stats.
-                                                              *         - Always given by a Parent Component.
-                                                              *         - Inmutable (by the same or other components)
-                                                              *         - Mutable (by the Parent Component) <- We want this data flow
-                                                              * */}
-            </button>
-        );
-    }
+function Square(props) {                                    /* When a Class only contains a render() method this class can be replaced by a 
+                                                             * function with only one method, render(). This function can get a parameter 
+                                                             * which will be the props. */
+    return (
+        <button className="square" onClick={props.onClick}> {/* As we are not in a class, we don't need the arrow function to access 'this' */}
+        {props.value}
+        </button>
+    );
 }
 
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
+}
 
 // ==================================
 
