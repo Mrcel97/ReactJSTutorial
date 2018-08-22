@@ -3,54 +3,41 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Game extends React.Component {
-    render() {
-        return (
-        <div className="game">
-            <div className="game-board">
-                <Board />
-            </div>
-            <div className="game-info">
-            </div>
-        </div>
-        );
-    }
-}
-
-
-class Board extends React.Component {
+    // Global variables due to avoid to declare in every function.
     winner;
+    history;
+    current;
 
     constructor(props) {
         super(props);
         this.state = {
-            squares: Array(9).fill(null),
+            history: [{
+                squares: Array(9).fill(null), // Now Board Component will not store the state of the game any more.
+            }],
             xIsNext: true,
-        };
+        }
     }
 
-    handleClick(i) {
-        const squares = this.state.squares.slice();
-        if (this.winner || squares[i]) { // If game has ended or square[i] has been already filled, return.
+    handleClick(i) { /* Due Game Component now have the squares state and Board Component only uses their props this Coponent will 
+                      * handleClicks.*/
+        const squares = this.current.squares.slice();
+        if (this.winner || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
-            squares: squares,
+            history: this.history.concat([{
+                squares: squares,
+            }]),
             xIsNext: !this.state.xIsNext,
         });
     }
 
-    renderSquare(i) {
-        return (
-            <Square 
-                value={this.state.squares[i]}
-                onClick={() => this.handleClick(i)}
-            />
-        );
-    }
-
     render() {
-        this.winner  = calculateWinner(this.state.squares);
+        this.history = this.state.history;
+        this.current = this.history[this.history.length-1];
+        this.winner = calculateWinner(this.current.squares); // Due Game Component now have the squares state this Component will calculateWinner.
+
         let status;
         if (this.winner) {
             status = 'Winner: ' + this.winner;
@@ -59,8 +46,36 @@ class Board extends React.Component {
         }
 
         return (
+        <div className="game">
+            <div className="game-board">
+                <Board 
+                    squares={this.current.squares}
+                    onClick={(i) => this.handleClick(i)}
+                />
+            </div>
+            <div className="game-info">
+                <div>{status}</div>
+            </div>
+        </div>
+        );
+    }
+}
+
+
+class Board extends React.Component {
+
+    renderSquare(i) {
+        return (
+            <Square 
+                value={this.props.squares[i]}
+                onClick={() => this.props.onClick(i)}
+            />
+        );
+    }
+
+    render() {
+        return (
             <div>
-                <div className="status">{status}</div>
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
@@ -81,12 +96,10 @@ class Board extends React.Component {
     }
 }
 
-function Square(props) {                                    /* When a Class only contains a render() method this class can be replaced by a 
-                                                             * function with only one method, render(). This function can get a parameter 
-                                                             * which will be the props. */
+function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}> {/* As we are not in a class, we don't need the arrow function to access 'this' */}
-        {props.value}
+        <button className="square" onClick={props.onClick}>
+            {props.value}
         </button>
     );
 }
