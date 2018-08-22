@@ -66,25 +66,15 @@ class Board extends React.Component {
     }
 }
 
-class Square extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: null,
-        };
-    }
-
-    render() {
-        return (
-            <button
-                className="square" 
-                onClick={() => this.props.onClick()}
-            >
-                {this.props.value}
-            </button>
-        );
-    }
-}
+function Square(props) {                                    /* When a Class only contains a render() method this class can be replaced by a 
+                                                             * function with only one method, render(). This function can get a parameter 
+                                                             * which will be the props. */
+    return (
+      <button className="square" onClick={props.onClick}>   {/* As we are not in a class, we don't need the arrow function to access 'this' */}
+        {props.value}
+      </button>
+    );
+  }
 
 
 // ==================================
