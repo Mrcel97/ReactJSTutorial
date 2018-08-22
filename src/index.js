@@ -42,7 +42,8 @@ class Game extends React.Component {
         const moves = this.history.map((step, move) => {
             const desc = move ? 'Go to move #' + move : 'Go to game start';
             return (
-                <li>
+                <li key={move}> {/* React dinamic lists need to have a key to diferenciate each other. If no key is provided this will
+                                  * generate a warning message. */}
                     <button onClick={() => this.jumpTo(move)}>{desc}</button>
                 </li>
             );
