@@ -18,8 +18,26 @@ class Game extends React.Component {
 
 
 class Board extends React.Component {
-    renderSquare(i) {
-        return <Square value={i} />;
+    constructor(props) {                                    // Add Square Components (children) behaviour to Board Component (parent)
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),                   // 3x3 Array of no-state cells.
+        };
+    }
+
+    handleClick(i) {
+        const squares = this.state.squares.slice();         // Shallow copy
+        squares[i] = 'X';                                   // (*)... Then this number will be used to update only the specific Square.
+        this.setState({squares: squares});
+    }
+
+    renderSquare(i) {                                       // When we create a Square we assign a numer to it ...(*)
+        return (
+            <Square 
+                value={this.state.squares[i]}               // Set the 'this.props.value' of the Square Component to 'X', 'O' or Null.
+                onClick={() => this.handleClick(i)}         // Function defined by Board Component to help us to update Board state without privacity problems.
+            />
+        );
     }
 
     render() {
@@ -49,8 +67,8 @@ class Board extends React.Component {
 }
 
 class Square extends React.Component {
-    constructor(props) {    // We will use component state to store the current value of the Square
-        super(props);       // You ALWAYS need to call 'super()' when defining the constructor of a subclass
+    constructor(props) {
+        super(props);
         this.state = {
             value: null,
         };
@@ -60,9 +78,23 @@ class Square extends React.Component {
         return (
             <button
                 className="square" 
-                onClick={() => this.setState({value: 'X'})}
-            >                       {/* One click, update Square state */}
-                {this.state.value}  {/* Now we use state to know Square behaviour */}
+                onClick={() => this.props.onClick()}        // onClick() will generate a 'click event' handled by handleClick() function in Board Component.
+            >
+                {this.props.value}                          {/* Now we are interessed in work with 'this.props.value' due to be updated by the BoardComponent 
+                                                              * 
+                                                              * Explication:
+                                                              *     · State:
+                                                              *         - Individual local states.
+                                                              *         - Often become the props of the Child Components.
+                                                              *         - Inmutable (by any other Component)
+                                                              *         - Mutable (by the same Component)
+                                                              *     
+                                                              *     · Props:
+                                                              *         - External given stats.
+                                                              *         - Always given by a Parent Component.
+                                                              *         - Inmutable (by the same or other components)
+                                                              *         - Mutable (by the Parent Component) <- We want this data flow
+                                                              * */}
             </button>
         );
     }
@@ -72,6 +104,6 @@ class Square extends React.Component {
 // ==================================
 
 ReactDOM.render(
-    <Game />,                                // Load Game component into DOM
+    <Game />,
     document.getElementById('root')
 )
