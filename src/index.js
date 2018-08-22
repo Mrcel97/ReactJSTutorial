@@ -25,7 +25,13 @@ class Board extends React.Component {
         };
     }
 
-    renderSquare(i) {
+    handleClick(i) {
+        const squares = this.state.squares.slice();         // Shallow copy
+        squares[i] = 'X';                                   // (*)... Then this number will be used to update only the specific Square.
+        this.setState({squares: squares});
+    }
+
+    renderSquare(i) {                                       // When we create a Square we assign a numer to it ...(*)
         return (
             <Square 
                 value={this.state.squares[i]}               // Set the 'this.props.value' of the Square Component to 'X', 'O' or Null.
