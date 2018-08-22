@@ -18,6 +18,8 @@ class Game extends React.Component {
 
 
 class Board extends React.Component {
+    winner;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -28,6 +30,9 @@ class Board extends React.Component {
 
     handleClick(i) {
         const squares = this.state.squares.slice();
+        if (this.winner || squares[i]) { // If game has ended or square[i] has been already filled, return.
+            return;
+        }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
             squares: squares,
@@ -45,7 +50,13 @@ class Board extends React.Component {
     }
 
     render() {
-        const status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
+        this.winner  = calculateWinner(this.state.squares);
+        let status;
+        if (this.winner) {
+            status = 'Winner: ' + this.winner;
+        } else {
+            status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
 
         return (
             <div>
@@ -74,12 +85,31 @@ function Square(props) {                                    /* When a Class only
                                                              * function with only one method, render(). This function can get a parameter 
                                                              * which will be the props. */
     return (
-      <button className="square" onClick={props.onClick}>   {/* As we are not in a class, we don't need the arrow function to access 'this' */}
+        <button className="square" onClick={props.onClick}> {/* As we are not in a class, we don't need the arrow function to access 'this' */}
         {props.value}
-      </button>
+        </button>
     );
-  }
+}
 
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
+}
 
 // ==================================
 
