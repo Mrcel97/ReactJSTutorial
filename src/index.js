@@ -34,6 +34,7 @@ class Game extends React.Component {
     }
 
     render() {
+        const MAX_LEN = 9;
         this.history = this.state.history;
         this.current = this.history[this.history.length-1];
         this.winner = calculateWinner(this.current.squares); // Due Game Component now have the squares state this Component will calculateWinner.
@@ -46,10 +47,11 @@ class Game extends React.Component {
                 </li>
             );
         });
-
         let status;
         if (this.winner) {
             status = 'Winner: ' + this.winner;
+        } else if (this.history.length-1 === MAX_LEN) { 
+            status = 'Draw...';
         } else {
             status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
