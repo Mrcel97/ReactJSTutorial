@@ -14,12 +14,15 @@ class Game extends React.Component {
             history: [{
                 squares: Array(9).fill(null), // Now Board Component will not store the state of the game any more.
             }],
+            stepNumber: 0,
             xIsNext: true,
         }
     }
 
     handleClick(i) { /* Due Game Component now have the squares state and Board Component only uses their props this Coponent will 
                       * handleClicks.*/
+        this.history = this.state.history.slice(0, this.state.stepNumber + 1);
+        this.current = this.history[this.history.length - 1];
         const squares = this.current.squares.slice();
         if (this.winner || squares[i]) {
             return;
@@ -29,15 +32,24 @@ class Game extends React.Component {
             history: this.history.concat([{
                 squares: squares,
             }]),
+            stepNumber: this.history.length,
             xIsNext: !this.state.xIsNext,
+        });
+    }
+
+    jumpTo(step) {
+        this.setState({
+            stepNumber: step,
+            xIsNext: (step % 2) === 0,
         });
     }
 
     render() {
         const MAX_LEN = 9;
         this.history = this.state.history;
-        this.current = this.history[this.history.length-1];
-        this.winner = calculateWinner(this.current.squares); // Due Game Component now have the squares state this Component will calculateWinner.
+        this.current = this.history[this.state.stepNumber];
+        this.winner = calculateWinner(this.current.squares); /* Due Game Component now have the squares state this Component will
+                                                              * calculateWinner.*/
 
         const moves = this.history.map((step, move) => {
             const desc = move ? 'Go to move #' + move : 'Go to game start';
