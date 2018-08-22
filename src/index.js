@@ -26,7 +26,12 @@ class Board extends React.Component {
     }
 
     renderSquare(i) {
-        return <Square value={this.state.squares[i]} />;    // Board know Squares initial state so we can define it. 
+        return (
+            <Square 
+                value={this.state.squares[i]}               // Set the 'this.props.value' of the Square Component to 'X', 'O' or Null.
+                onClick={() => this.handleClick(i)}         // Function defined by Board Component to help us to update Board state without privacity problems.
+            />
+        );
     }
 
     render() {
@@ -67,9 +72,23 @@ class Square extends React.Component {
         return (
             <button
                 className="square" 
-                onClick={() => this.setState({value: 'X'})}
+                onClick={() => this.props.onClick()}        // onClick() will generate a 'click event' handled by handleClick() function in Board Component.
             >
-                {this.state.value}
+                {this.props.value}                          {/* Now we are interessed in work with 'this.props.value' due to be updated by the BoardComponent 
+                                                              * 
+                                                              * Explication:
+                                                              *     · State:
+                                                              *         - Individual local states.
+                                                              *         - Often become the props of the Child Components.
+                                                              *         - Inmutable (by any other Component)
+                                                              *         - Mutable (by the same Component)
+                                                              *     
+                                                              *     · Props:
+                                                              *         - External given stats.
+                                                              *         - Always given by a Parent Component.
+                                                              *         - Inmutable (by the same or other components)
+                                                              *         - Mutable (by the Parent Component) <- We want this data flow
+                                                              * */}
             </button>
         );
     }
