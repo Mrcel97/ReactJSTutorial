@@ -38,6 +38,15 @@ class Game extends React.Component {
         this.current = this.history[this.history.length-1];
         this.winner = calculateWinner(this.current.squares); // Due Game Component now have the squares state this Component will calculateWinner.
 
+        const moves = this.history.map((step, move) => {
+            const desc = move ? 'Go to move #' + move : 'Go to game start';
+            return (
+                <li>
+                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                </li>
+            );
+        });
+
         let status;
         if (this.winner) {
             status = 'Winner: ' + this.winner;
@@ -55,6 +64,7 @@ class Game extends React.Component {
             </div>
             <div className="game-info">
                 <div>{status}</div>
+                <ol>{moves}</ol>
             </div>
         </div>
         );
