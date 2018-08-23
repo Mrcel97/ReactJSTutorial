@@ -6,6 +6,7 @@ class Game extends React.Component {
     winner;
     history;
     current;
+    winnerLine;
 
     constructor(props) {
         super(props);
