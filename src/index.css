@@ -59,3 +59,7 @@ ol, ul {
 .coordinates {
     list-style: none;
 }
+
+.selected {
+    color: greenyellow;
+}
