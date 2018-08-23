@@ -36,6 +36,7 @@ class Game extends React.Component {
     }
 
     jumpTo(step) {
+        this.winner = null;
         this.setState({
             stepNumber: step,
             xIsNext: (step % 2) === 0,
@@ -44,9 +45,10 @@ class Game extends React.Component {
 
     render() {
         const MAX_LEN = 9;
+        let winnerResult;
         this.history = this.state.history;
         this.current = this.history[this.state.stepNumber];
-        this.winner = calculateWinner(this.current.squares);
+        winnerResult = calculateWinner(this.current.squares);
 
         const moves = this.history.map((step, move) => {
             const desc = move ? 'Go to move #' + move : 'Go to game start';
@@ -57,7 +59,8 @@ class Game extends React.Component {
             );
         });
         let status;
-        if (this.winner) {
+        if (winnerResult) {
+            this.winner = winnerResult.shift();
             status = 'Winner: ' + this.winner;
         } else if (this.history.length-1 === MAX_LEN) { 
             status = 'Draw...';
@@ -70,6 +73,7 @@ class Game extends React.Component {
             <div className="game-board">
                 <Board 
                     squares={this.current.squares}
+                    winnerLine={winnerResult}
                     onClick={(i) => this.handleClick(i)}
                 />
             </div>
@@ -87,7 +91,8 @@ class Board extends React.Component {
 
     renderSquare(i) {
         return (
-            <Square 
+            <Square
+                winner={isWinner(i, this.props.winnerLine)}
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i)}
             />
@@ -118,14 +123,19 @@ class Board extends React.Component {
 }
 
 function Square(props) {
+    var liClasses = "square"
+
+    if (props.winner) { liClasses = liClasses.concat(" winner") }
+
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className={liClasses} onClick={props.onClick}>
             {props.value}
         </button>
     );
 }
 
 function calculateWinner(squares) {
+    const winnerLine = [];
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -139,10 +149,19 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            winnerLine.push(a,b,c);
+            return [squares[a], winnerLine];
         }
     }
     return null;
+}
+
+function isWinner(i, winnerLine) {
+    if (!winnerLine) { return; }
+    return i === winnerLine[0][0] ||
+           i === winnerLine[0][1] || 
+           i === winnerLine[0][2];
+    
 }
 
 // ==================================
