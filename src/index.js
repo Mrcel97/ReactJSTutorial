@@ -71,8 +71,8 @@ class Game extends React.Component {
         });
 
         const coordinates = this.history.map((step, pos) => {
-            if (!step.coordinates[step.lastPush]) {return null;}
-            const desc = pos ? 'X: ' + step.coordinates[step.lastPush] + ' Y: ' + step.coordinates[step.lastPush] : null;
+            if (!step.coordinates[step.lastPush]) { return null; }
+            const desc = pos ? 'X: ' + step.coordinates[step.lastPush][0] + ' Y: ' + step.coordinates[step.lastPush][1] : null;
             return (
                 <li key={pos}>
                     <span>{desc}</span>
