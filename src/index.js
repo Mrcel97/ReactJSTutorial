@@ -7,29 +7,38 @@ class Game extends React.Component {
     history;
     current;
     winnerLine;
+    positions;
 
     constructor(props) {
         super(props);
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
+                coordinates: Array(9).fill(null),
             }],
             stepNumber: 0,
             xIsNext: true,
         }
     }
 
-    handleClick(i) {
+    handleClick(i, pos) {
         this.history = this.state.history.slice(0, this.state.stepNumber + 1);
         this.current = this.history[this.history.length - 1];
+        this.positions = this.history[this.history.length - 1];
         const squares = this.current.squares.slice();
+        const coordinates = this.positions.coordinates.slice();
+        const lastPush = i;
+
         if (this.winner || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
+        coordinates[i] = pos;
         this.setState({
             history: this.history.concat([{
                 squares: squares,
+                coordinates: coordinates,
+                lastPush: lastPush,
             }]),
             stepNumber: this.history.length,
             xIsNext: !this.state.xIsNext,
@@ -49,6 +58,7 @@ class Game extends React.Component {
         let winnerResult;
         this.history = this.state.history;
         this.current = this.history[this.state.stepNumber];
+        this.positions = this.history[this.state.stepNumber];
         winnerResult = calculateWinner(this.current.squares);
 
         const moves = this.history.map((step, move) => {
@@ -59,6 +69,18 @@ class Game extends React.Component {
                 </li>
             );
         });
+
+        const coordinates = this.history.map((step, pos) => {
+            if (!step.coordinates[step.lastPush]) { return null; }
+            const desc = pos ? 'X: ' + step.coordinates[step.lastPush][0] + ' Y: ' + step.coordinates[step.lastPush][1] : null;
+            return (
+                <li key={pos}>
+                    <span>{desc}</span>
+                </li>
+            );
+            
+        })
+
         let status;
         if (winnerResult) {
             this.winner = winnerResult.shift();
@@ -75,12 +97,16 @@ class Game extends React.Component {
                 <Board 
                     squares={this.current.squares}
                     winnerLine={winnerResult}
-                    onClick={(i) => this.handleClick(i)}
+                    onClick={(i, pos) => this.handleClick(i, pos)}
                 />
             </div>
             <div className="game-info">
                 <div>{status}</div>
                 <ol>{moves}</ol>
+            </div>
+            <div className="game-info">
+                <div>Click Log</div>
+                <ul className="coordinates">{coordinates}</ul>
             </div>
         </div>
         );
@@ -91,11 +117,12 @@ class Game extends React.Component {
 class Board extends React.Component {
 
     renderSquare(i) {
+        var pos = calculatePos(i);
         return (
             <Square
                 winner={isWinner(i, this.props.winnerLine)}
                 value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i)}
+                onClick={() => this.props.onClick(i, pos)}
             />
         );
     }
@@ -163,6 +190,14 @@ function isWinner(i, winnerLine) {
            i === winnerLine[0][1] || 
            i === winnerLine[0][2];
     
+}
+
+function calculatePos(i) {
+    const MAX_WIDTH = 3;
+    var row = parseInt(i / MAX_WIDTH , 10);
+    var col = i % MAX_WIDTH;
+
+    return [row, col];
 }
 
 // ==================================
