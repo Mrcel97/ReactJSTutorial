@@ -15,6 +15,7 @@ class Game extends React.Component {
             history: [{
                 squares: Array(9).fill(null),
                 coordinates: Array(9).fill(null),
+                lastPush: null
             }],
             stepNumber: 0,
             xIsNext: true,
@@ -90,14 +91,14 @@ class Game extends React.Component {
         } else {
             status = 'Next Player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
-
         return (
         <div className="game">
             <div className="game-board">
-                <Board 
+                <Board
                     squares={this.current.squares}
                     winnerLine={winnerResult}
                     onClick={(i, pos) => this.handleClick(i, pos)}
+                    lastPush={this.state.history[this.state.stepNumber].lastPush}
                 />
             </div>
             <div className="game-info">
@@ -120,6 +121,7 @@ class Board extends React.Component {
         var pos = calculatePos(i);
         return (
             <Square
+                selected={this.props.lastPush === i}
                 winner={isWinner(i, this.props.winnerLine)}
                 value={this.props.squares[i]}
                 onClick={() => this.props.onClick(i, pos)}
@@ -153,13 +155,22 @@ class Board extends React.Component {
 function Square(props) {
     var liClasses = "square"
 
-    if (props.winner) { liClasses = liClasses.concat(" winner") }
+    liClasses = applyClasses(props, liClasses);
 
     return (
         <button className={liClasses} onClick={props.onClick}>
             {props.value}
         </button>
     );
+}
+
+function applyClasses(props, liClasses) {
+    if (props.winner) { 
+        liClasses = liClasses.concat(" winner") 
+    } else if (props.selected) { 
+        liClasses = liClasses.concat(" selected") 
+    }
+    return liClasses;
 }
 
 function calculateWinner(squares) {
