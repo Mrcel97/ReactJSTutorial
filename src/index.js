@@ -19,6 +19,7 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            order: 'desc',
         }
     }
 
@@ -46,12 +47,45 @@ class Game extends React.Component {
         });
     }
 
+    handleSwap() {
+        if (this.state.history[this.state.history.length - 1].lastPush != null) {
+            if(this.state.order === 'desc') {
+                this.setState({
+                    order: 'asc',
+                });
+                return;
+            }
+            this.setState({
+                order: 'desc',
+            });
+        }
+    }
+
     jumpTo(step) {
         this.winner = null;
         this.setState({
             stepNumber: step,
             xIsNext: (step % 2) === 0,
         });
+    }
+
+    loadMoves() {
+        var orderedHistory = this.history.sort((a,b) => a.key > b.key).map((step, move) => {
+            const desc = move ? 'Go to move #' + move : 'Go to game start';
+            return (
+                <li key={move}>
+                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                </li>
+            );
+        });
+
+        if (this.state.order === 'asc') {
+            orderedHistory.sort((a,b) => a.key < b.key)
+        } else {
+            orderedHistory.sort((a,b) => a.key > b.key)
+        }
+
+        return orderedHistory;
     }
 
     render() {
@@ -62,14 +96,7 @@ class Game extends React.Component {
         this.positions = this.history[this.state.stepNumber];
         winnerResult = calculateWinner(this.current.squares);
 
-        const moves = this.history.map((step, move) => {
-            const desc = move ? 'Go to move #' + move : 'Go to game start';
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            );
-        });
+        const moves = this.loadMoves();
 
         const coordinates = this.history.map((step, pos) => {
             if (!step.coordinates[step.lastPush]) { return null; }
@@ -103,6 +130,7 @@ class Game extends React.Component {
             </div>
             <div className="game-info">
                 <div>{status}</div>
+                <button onClick={this.handleSwap.bind(this)}>Reorder Log</button>
                 <ol>{moves}</ol>
             </div>
             <div className="game-info">
