@@ -117,39 +117,70 @@ class Game extends React.Component {
 
 class Board extends React.Component {
 
-    renderSquare(i) {
-        var pos = calculatePos(i);
+    renderSquareRow(a) {
         return (
-            <Square
-                selected={this.props.lastPush === i}
-                winner={isWinner(i, this.props.winnerLine)}
-                value={this.props.squares[i]}
-                onClick={() => this.props.onClick(i, pos)}
-            />
+            <div key={a} className="board-row">
+                <SquareRow
+                    squares={this.props.squares}
+                    rowNum={a}
+                    winnerLine={this.props.winnerLine}
+                    lastPush={this.props.lastPush}
+                    onClick={(i, pos) => this.props.onClick(i, pos)}
+                />
+            </div>
         );
+    }
+
+    getTableHTML() {
+        const MAX_ROWS = 3;
+        var html = [];
+        
+        for (let row = 0; row < MAX_ROWS; row++) {
+            html = html.concat(this.renderSquareRow(row));
+        }
+
+        return html;
     }
 
     render() {
         return (
             <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {this.getTableHTML()}
             </div>
         );
     }
+}
+
+function SquareRow(props) {
+
+    function renderSquare(i) {
+        var pos = calculatePos(i);
+        return (
+            <Square
+                key={pos}
+                selected={props.lastPush === i}
+                winner={isWinner(i, props.winnerLine)}
+                value={props.squares[i]}
+                pos={pos}
+                onClick={() => props.onClick(i, pos)}
+            />
+        );
+    }
+
+    function getRowHTML() {
+        const MAX_SQUARE = (props.rowNum+1) * 3
+        const MAX_COLS = 3;
+        var html = [];
+        
+        for (let square = props.rowNum * MAX_COLS; square < MAX_SQUARE; square++) {
+            html = html.concat(renderSquare(square));
+        }
+
+        return html;
+    }
+
+    return getRowHTML();
+
 }
 
 function Square(props) {
@@ -158,7 +189,7 @@ function Square(props) {
     liClasses = applyClasses(props, liClasses);
 
     return (
-        <button className={liClasses} onClick={props.onClick}>
+        <button key={props.pos} className={liClasses} onClick={props.onClick}>
             {props.value}
         </button>
     );
