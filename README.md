@@ -13,10 +13,6 @@ This tutorial is is separated into 5 parts. In each part the tutorial follow a s
   - [4th step](https://github.com/Mrcel97/ReactJSTutorial/commit/324e188dcae1ca2274a4e10b74cf3151151f5275): Link Square Component with Board Component.
   - [Optional step](https://github.com/Mrcel97/ReactJSTutorial/commit/2b89b096f25a38fd6d1b4e02261681130029b0ed): Add CSS to the entire app.
 
-- [Second Part](https://github.com/Mrcel97/ReactJSTutorial/tree/2nd-part): Aim is to improve the knowledge about classes and their properties.
-  - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/883206b2db10b7181d6b9eeaf4cf5dea54b1db87): Add interactive behaviour to Square Component.
-  - [2nd step](https://github.com/Mrcel97/ReactJSTutorial/commit/f2515ab58250316214c7583f5c396bfa779c530e): Add state to Square Component.
-
 - [Part 2](https://github.com/Mrcel97/ReactJSTutorial/commits/2nd-part): Aim is to discover class objects state and their usage.  
   - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/883206b2db10b7181d6b9eeaf4cf5dea54b1db87 ): Add interactive behaviour to Square Component.  
   - [2nd step](https://github.com/Mrcel97/ReactJSTutorial/commit/f2515ab58250316214c7583f5c396bfa779c530e): Add state to Square Component.  
