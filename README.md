@@ -59,5 +59,5 @@ This tutorial is is separated into 5 parts. In each part the tutorial follow a s
 - [Extra challenge 4](https://github.com/Mrcel97/ReactJSTutorial/commits/extra-part-4): Avoid hardcoding each HTML element.
   - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/a9ecb6185b8a6879466d0bd51b4b4e9fe27fe7cf): Modified the app structure due to avoid hardcoding each HTML element.
   
-- [Extra challenge 5](https://github.com/Mrcel97/ReactJSTutorial/commits/extra-part-5): Add dorting option to the history.
+- [Extra challenge 5](https://github.com/Mrcel97/ReactJSTutorial/commits/extra-part-5): Add sorting option to the history.
   - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/f9a7c74f2b49669f76017c317289c83a2b6a9c68): Introduced the sorting option of the game history.
