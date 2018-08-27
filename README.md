@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="http://blog-assets.risingstack.com/2016/Jan/react_best_practices-1453211146748.png" alt="ReactJS_image" />
+</p>
+
 # Tic-Tac-Toe ReactJS Tutorial
 This Project is a GitHub version of [Intro to React](https://reactjs.org/tutorial/tutorial.html) tutorial. All rights go to Facebook Inc.
 
