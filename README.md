@@ -44,10 +44,9 @@ This tutorial is is separated into 5 parts. In each part the tutorial follow a s
 
   - [5th step](https://github.com/Mrcel97/ReactJSTutorial/commit/58c47e14b25039cf8a5276a4f8ac1c97ba96844b): Added history buttons functionality.
 
-  - [6th step](https://github.com/Mrcel97/ReactJSTutorial/commit/2eeeb4f02485dbb04da4cfeea28dac46db0c7b53): Solved onResetGame issue.
+  - [6th step](https://github.com/Mrcel97/ReactJSTutorial/commit/2eeeb4f02485dbb04da4cfeea28dac46db0c7b53): Solved onResetGame issue.  
 
 ## Intro to React (Extra Challenges).
-
 - [Extra challenge 1](https://github.com/Mrcel97/ReactJSTutorial/commits/extra-part-1): Highlight the winner line.
   - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/cb62864b4119c6c8b4887fdce82206995256d735): Add highlight of the winner line.
   - [2nd step](https://github.com/Mrcel97/ReactJSTutorial/commit/037915c760fec3d4250cd0f5a97fa40ad3dabe2c): Improve code style.
@@ -64,4 +63,15 @@ This tutorial is is separated into 5 parts. In each part the tutorial follow a s
   - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/a9ecb6185b8a6879466d0bd51b4b4e9fe27fe7cf): Modified the app structure due to avoid hardcoding each HTML element.
   
 - [Extra challenge 5](https://github.com/Mrcel97/ReactJSTutorial/commits/extra-part-5): Add sorting option to the history.
-  - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/f9a7c74f2b49669f76017c317289c83a2b6a9c68): Introduced the sorting option of the game history.
+  - [1st step](https://github.com/Mrcel97/ReactJSTutorial/commit/f9a7c74f2b49669f76017c317289c83a2b6a9c68): Introduced the sorting option of the game history.  
+
+## Extra Challenge (Special challenge - BattleShip).
+  
+**This part is not in Intro to React tutorial** so there is no specific way of do it correctly. In this part we ask you to improve your actual Tic-Tac-Toe code to create a User vs AI BattleShip game. Here I will give a squema which I used due to have a start point.
+
+  1. Create the Object EnemyGame: The aim of this new object will be to create and control a new Board object where the user will make the attacks.  
+  2. Separate the game in 3 phases (load Ships, attack Ships, end).  
+    2.1. Load Ships: Consists in block the EnemyGame Board while the user introduce their ships. Ships can have a deffault size (1x2, 1x1, 3x1, ...) due to make the game easier.  
+    2.2. Attack Ships: Block the User Board and start recording clicks in EnemyGame Board.  
+    2.3. End game: Block User Board and EnemyGame Board and display the winner.  
+  3. You can make an AI which makes their shoot after you so you don't need to keep the 'X' and 'O' turns.  
