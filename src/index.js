@@ -19,6 +19,10 @@ class Game extends React.Component {
         }
     }
 
+    componentDidMount(){
+        document.title = "BattleShip";
+    }
+
     handleClick(i) {
         this.history = this.state.history.slice(0, this.state.stepNumber + 1);
         this.current = this.history[this.history.length - 1];
