@@ -3,7 +3,7 @@
 </p>
 
 # Tic-Tac-Toe ReactJS Tutorial
-This Project is a GitHub version of [Intro to React](https://reactjs.org/tutorial/tutorial.html) tutorial. All rights go to Facebook Inc.
+[This Project](https://toetactic.netlify.com/) is a GitHub version of [Intro to React](https://reactjs.org/tutorial/tutorial.html) tutorial. All rights go to Facebook Inc.
 
 ## Table of Contents:
 This tutorial is is separated into 5 parts. In each part the tutorial follow a series of steps to reach the part aim.
