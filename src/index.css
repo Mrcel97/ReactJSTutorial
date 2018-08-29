@@ -55,3 +55,11 @@ ol, ul {
 .winner {
     color: red;
 }
+
+.coordinates {
+    list-style: none;
+}
+
+.selected {
+    color: greenyellow;
+}
