@@ -67,7 +67,7 @@ This tutorial is is separated into 5 parts. In each part the tutorial follow a s
 
 ## Extra Challenge (Special challenge - BattleShip).
   
-**This part is not in Intro to React tutorial** so there is no specific way of do it correctly. In this part we ask you to improve your actual Tic-Tac-Toe code to create a [User vs AI BattleShip game](https://battleship.netlify.com/). Here I will give a squema which I used as start point due to develop a [basic web application]():
+**This part is not in Intro to React tutorial** so there is no specific way of do it correctly. In this part we ask you to improve your actual Tic-Tac-Toe code to create a [User vs AI BattleShip game](https://battleship.netlify.com/). Here I will give a squema which I used as start point due to develop a [basic web application](simple-battleship.netlify.com):
 
   1. Create the Object EnemyGame: The aim of this new object will be to create and control a new Board object where the user will make the attacks.  
   2. Separate the game in 3 phases (load Ships, attack Ships, end).  
